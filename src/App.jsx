@@ -101,7 +101,7 @@ const App = () => {
             placeholder="Task title"
             value={newTask.title}
             onChange={handleInputChange}
-            className="border rounded px-4 py-2 mr-2 w-full mb-2 text-black"
+            className="border rounded px-4 py-2 mr-2 w-full mb-2 "
           />
           <input
             type="text"
@@ -109,7 +109,7 @@ const App = () => {
             placeholder="Task description"
             value={newTask.description}
             onChange={handleInputChange}
-            className="border rounded px-4 py-2 mr-2 w-full text-black"
+            className="border rounded px-4 py-2 mr-2 w-full "
           />
           <button
             onClick={handleAddTask}
