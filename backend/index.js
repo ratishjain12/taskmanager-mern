@@ -5,7 +5,11 @@ const mongoose = require("mongoose");
 const Task = require("./models/Task");
 const app = express();
 
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://taskmanager-mern.vercel.app"],
+  })
+);
 app.use(express.json());
 
 mongoose.connect(
