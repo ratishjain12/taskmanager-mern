@@ -3,6 +3,8 @@ import React, { useState, useEffect, useContext } from "react";
 import Task from "./components/Task";
 import { v4 as uuidv4 } from "uuid";
 import { TaskContext } from "./TaskContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const App = () => {
   const { tasks, setTasks } = useContext(TaskContext);
   const [count, setCount] = useState(0);
@@ -30,6 +32,29 @@ const App = () => {
       );
       console.log(res);
       fetchTasks();
+      if (res.ok) {
+        toast.success("Task Done!!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      } else {
+        toast.error("An error occured", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
       return;
     }
     if (status === "update") {
@@ -55,6 +80,30 @@ const App = () => {
     setTasks((prev) => {
       return [...prev];
     });
+
+    if (res.ok) {
+      toast.success("Status updated!!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } else {
+      toast.error("An error occured", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
   };
 
   const handleInputChange = (event) => {
@@ -84,7 +133,29 @@ const App = () => {
         "Content-Type": "application/json",
       },
     });
-    console.log(res);
+    if (res.ok) {
+      toast.success("Task added Successfully!!", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } else {
+      toast.error("An error occured", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
     const newTaskWithId = { ...newTask, id, status };
     setTasks((prevTasks) => [...prevTasks, newTaskWithId]);
     setNewTask({ title: "", description: "" }); // Clear form after adding the task
@@ -132,6 +203,20 @@ const App = () => {
           );
         })}
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      {/* Same as */}
+      <ToastContainer />
     </div>
   );
 };
