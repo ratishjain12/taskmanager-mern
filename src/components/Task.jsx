@@ -1,4 +1,3 @@
-// Task.js
 import React, { useContext, useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -21,11 +20,9 @@ const style = {
 };
 
 const Task = ({ id, title, description, onChangeStatus, status }) => {
-  const { tasks, setTasks } = useContext(TaskContext);
-  title = tasks[tasks.findIndex((item) => item.id === id)].title;
-  description = tasks[tasks.findIndex((item) => item.id === id)].description;
+  const { setTrack, track } = useContext(TaskContext);
+
   const [open, setOpen] = useState(false);
-  const [count, setCount] = useState(0);
 
   const [newTask, setNewTask] = useState({
     title: title,
@@ -53,10 +50,10 @@ const Task = ({ id, title, description, onChangeStatus, status }) => {
         "Content-Type": "application/json",
       },
     });
-    console.log(res);
-    onChangeStatus(id, "update");
+
     setOpen(false);
     if (res.ok) {
+      setTrack(!track);
       toast.success("Task updated Successfully!!", {
         position: "top-right",
         autoClose: 3000,

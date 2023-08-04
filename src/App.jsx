@@ -1,26 +1,21 @@
 // App.js
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Task from "./components/Task";
 import { v4 as uuidv4 } from "uuid";
 import { TaskContext } from "./TaskContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 const App = () => {
-  const { tasks, setTasks } = useContext(TaskContext);
-  const [count, setCount] = useState(0);
+  const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState({ title: "", description: "" });
+  const [track, setTrack] = useState(false);
+
   useEffect(() => {
     fetch(`${import.meta.env.VITE_BASE_URL}/fetchtasks`)
       .then((res) => res.json())
-      .then((tasks) => setTasks(tasks));
-    console.log("rendering");
-  }, [count]);
-
-  const fetchTasks = () => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/fetchtasks`)
-      .then((res) => res.json())
-      .then((tasks) => setTasks(tasks));
-  };
+      .then((data) => setTasks(data));
+  }, [track]);
 
   const handleStatusChange = async (taskId, status) => {
     if (status === "done") {
@@ -31,7 +26,7 @@ const App = () => {
         }
       );
       console.log(res);
-      fetchTasks();
+      setTrack(!track);
       if (res.ok) {
         toast.success("Task Done!!", {
           position: "top-right",
@@ -57,11 +52,6 @@ const App = () => {
       }
       return;
     }
-    if (status === "update") {
-      setCount((prev) => (prev = prev + 1));
-      return;
-    }
-
     const res = await fetch(
       `${import.meta.env.VITE_BASE_URL}/updatetask/${taskId}`,
       {
@@ -75,11 +65,7 @@ const App = () => {
 
     // let filtered = tasks.find((item) => item.id === taskId);
 
-    let idx = tasks.findIndex((item) => item.id === taskId);
-    tasks[idx].status = status;
-    setTasks((prev) => {
-      return [...prev];
-    });
+    setTrack(!track);
 
     if (res.ok) {
       toast.success("Status updated!!", {
@@ -156,9 +142,7 @@ const App = () => {
         theme: "dark",
       });
     }
-    const newTaskWithId = { ...newTask, id, status };
-    setTasks((prevTasks) => [...prevTasks, newTaskWithId]);
-    setNewTask({ title: "", description: "" }); // Clear form after adding the task
+    setTrack(!track); // Clear form after adding the task
   };
 
   return (
@@ -189,20 +173,24 @@ const App = () => {
             Add Task
           </button>
         </div>
-
-        {tasks.map((task) => {
-          return (
-            <Task
-              key={task.id}
-              id={task.id}
-              title={task.title}
-              description={task.title}
-              status={task.status}
-              onChangeStatus={handleStatusChange}
-            />
-          );
-        })}
+        <TaskContext.Provider value={{ track, setTrack }}>
+          {tasks.length > 0 &&
+            tasks.map((task) => {
+              console.log(task);
+              return (
+                <Task
+                  key={task.id}
+                  id={task.id}
+                  title={task.title}
+                  description={task.description}
+                  status={task.status}
+                  onChangeStatus={handleStatusChange}
+                />
+              );
+            })}
+        </TaskContext.Provider>
       </div>
+
       <ToastContainer
         position="top-right"
         autoClose={2000}
