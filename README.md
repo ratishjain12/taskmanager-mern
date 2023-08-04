@@ -1,8 +1,6 @@
-# React + Vite
+# Task Manager mern stack app
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+![Screenshot 2023-08-04 153907](https://github.com/ratishjain12/taskmanager-mern/assets/43003421/740cfdfa-5f15-4f21-b673-b53b07b4e993)
